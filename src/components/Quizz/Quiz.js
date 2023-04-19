@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Question from './Question/Question';
 import Timer from './Timer';
 import './Quiz.scss';
+import Winner from '../Winner';
+import ScoreScreen from '../ScoreScreen'
 
 const Quiz = ({ questions, duration, onQuizCompleted }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -31,7 +33,11 @@ const Quiz = ({ questions, duration, onQuizCompleted }) => {
   };
 
   if (currentQuestionIndex >= questions.length) {
-    return <div className="quiz">Quiz completed!</div>;
+    if(score >= 4){
+        return <Winner />;
+    } else {
+        return <ScoreScreen />;
+    }
   }
 
   const questionData = questions[currentQuestionIndex];

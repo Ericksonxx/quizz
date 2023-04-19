@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import UserForm from './components/UserForm/UserForm';
 import Quiz from './components/Quizz/Quiz';
-import ScoreScreen from './components/ScoreScreen/ScoreScreen';
+import Winner from './components/Winner';
+import ScoreScreen from './components/ScoreScreen';
 import './App.scss';
 
 const App = () => {
   const [user, setUser] = useState({ name: '', email: '' });
   const [quizStarted, setQuizStarted] = useState(false);
-  const [score, setScore] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [timerExpired, setTimerExpired] = useState(false);
+  const [score, setScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [timer, setTimer] = useState(null);
+
 
   // Update these with your own Supabase URL and API key from the Supabase Dashboard
   const supabaseUrl = 'https://gsxlbajltldjkgeggjdu.supabase.co';
@@ -63,14 +67,23 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    let timer;
     if (quizStarted) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setTimerExpired(true);
       }, 60000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [quizStarted]);
+
+  useEffect(() => {
+    if (quizCompleted || timerExpired) {
+      clearTimeout(timer);
+    }
+  }, [quizCompleted, timerExpired]);
 
   if (timerExpired) {
     return <ScoreScreen score={score} />;
@@ -79,12 +92,13 @@ const App = () => {
   if (!quizStarted) {
     return <UserForm onStartQuiz={handleQuizStart} />;
   }
-  
+
   return (
     <div className="app">
       <Quiz questions={questions} duration={60} onQuizCompleted={handleQuizCompleted} />
     </div>
   );
+  
 };
 
 const parseCsvData = (data) => {
@@ -100,11 +114,6 @@ const parseCsvData = (data) => {
   return questions;
 };
 
-
-
-
-
-
-
-
 export default App;
+
+     

@@ -46,6 +46,11 @@ const App = () => {
     if (score !== null) {
       const time = '00:01:00';
       writeToSupabase(user.name, user.email, score, time);
+      if (score < 4) {
+        return <ScoreScreen score={score} />;
+      } else {
+        return (<div>Your score is {score}</div>)
+      }
     }
   }, [score, user]);
 

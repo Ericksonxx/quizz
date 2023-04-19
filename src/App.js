@@ -8,13 +8,13 @@ import './App.scss';
 const App = () => {
   const [user, setUser] = useState({ name: '', email: '' });
   const [quizStarted, setQuizStarted] = useState(false);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [timerExpired, setTimerExpired] = useState(false);
 
   // Update these with your own Supabase URL and API key from the Supabase Dashboard
   const supabaseUrl = 'https://gsxlbajltldjkgeggjdu.supabase.co';
-  const supabaseApiKey = 'YOUR_API_KEY';
+  const supabaseApiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzeGxiYWpsdGxkamtnZWdnamR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODE4NjU1ODAsImV4cCI6MTk5NzQ0MTU4MH0.F28ewElSEde7mJQW9979d9yFHpjHX0hLD7XqV--GqD8';
   const supabase = createClient(supabaseUrl, supabaseApiKey);
 
   const handleQuizStart = (name, email) => {
@@ -46,11 +46,6 @@ const App = () => {
     if (score !== null) {
       const time = '00:01:00';
       writeToSupabase(user.name, user.email, score, time);
-      if (score < 4) {
-        return <ScoreScreen score={score} />;
-      } else {
-        return (<div>Your score is {score}</div>)
-      }
     }
   }, [score, user]);
 
@@ -84,7 +79,7 @@ const App = () => {
   if (!quizStarted) {
     return <UserForm onStartQuiz={handleQuizStart} />;
   }
-
+  
   return (
     <div className="app">
       <Quiz questions={questions} duration={60} onQuizCompleted={handleQuizCompleted} />

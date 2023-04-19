@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+Overview
+The app is a simple quiz game that presents a series of multiple-choice questions to the user. The user can enter their name and email address to begin the quiz, and their score is stored in a Supabase database after completion.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Technologies Used
+The app is built with React, using the create-react-app tool to set up the initial project structure. The app also uses the following libraries and services:
 
-## Available Scripts
+Supabase: A backend-as-a-service platform that provides a PostgreSQL database and API for data storage and retrieval.
+react-csv-parse: A library for parsing CSV data in a React application.
+react-countdown-circle-timer: A component for displaying a countdown timer in a circular format.
+Project Structure
+The app's code is organized into several components, each of which handles a specific part of the app's functionality. Here's a brief overview of each component:
 
-In the project directory, you can run:
+App
+The App component is the top-level component for the app. It manages the overall state of the app and renders the other components as necessary. It fetches the quiz questions from a Google Sheets spreadsheet and passes them down to the Quiz component. It also handles the user's name and email input and stores the user's quiz score in the Supabase database after completion.
 
-### `npm start`
+Quiz
+The Quiz component is responsible for displaying the quiz questions and collecting the user's answers. It receives an array of question objects as a prop, each of which contains the question text, an array of possible answer options, and the index of the correct answer. The component uses React state to keep track of the user's selected answer for each question and updates the score accordingly. Once the quiz is complete, the component calls the onQuizCompleted callback function passed down from the App component with the final score.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Question
+The Question component is a child component of the Quiz component that renders an individual quiz question. It receives a question object as a prop and displays the question text and answer options. It also handles the user's selection of an answer and updates the state accordingly.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+UserForm
+The UserForm component is responsible for rendering the form where the user enters their name and email address to begin the quiz. It also displays the top scores from the Supabase database. It uses React state to keep track of the user's name and email input and passes them to the App component when the user submits the form.
 
-### `npm test`
+Timer
+The Timer component is responsible for rendering the countdown timer that appears during the quiz. It uses the react-countdown-circle-timer library to display the timer in a circular format.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Conclusion
+That's a high-level overview of the app's structure and functionality. I hope this helps you understand how everything fits together!

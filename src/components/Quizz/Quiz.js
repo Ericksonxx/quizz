@@ -11,6 +11,7 @@ const Quiz = ({ questions, duration, onQuizCompleted }) => {
   const [score, setScore] = useState(0);
   const [remainingTime, setRemainingTime] = useState(duration);
 
+
   const handleAnswerSelected = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
@@ -22,7 +23,6 @@ const Quiz = ({ questions, duration, onQuizCompleted }) => {
     onQuizCompleted(score, duration - remainingTime);
   };
 
-<<<<<<< HEAD
   if (currentQuestionIndex >= questions.length) {
     if(score >= 4){
         return <Winner />;
@@ -30,13 +30,6 @@ const Quiz = ({ questions, duration, onQuizCompleted }) => {
         return <ScoreScreen />;
     }
   }
-=======
-  useEffect(() => {
-    if (currentQuestionIndex >= questions.length) {
-      onQuizCompleted(score, duration - remainingTime);
-    }
-  }, [currentQuestionIndex, onQuizCompleted, score, questions.length, remainingTime]);
->>>>>>> temp-branch
 
   const questionData = questions[currentQuestionIndex];
   return (

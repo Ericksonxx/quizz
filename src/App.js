@@ -14,6 +14,7 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [timeSpent, setTimeSpent] = useState(0);
 
 
   // Update these with your own Supabase URL and API key from the Supabase Dashboard

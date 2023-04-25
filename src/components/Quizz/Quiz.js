@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Question from './Question/Question';
 import Timer from './Timer';
@@ -10,16 +9,7 @@ import ScoreScreen from '../ScoreScreen'
 const Quiz = ({ questions, duration, onQuizCompleted }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
-
-  useEffect(() => {
-    if (questions.length > 0 && (isQuizCompleted || currentQuestionIndex >= questions.length)) {
-        onQuizCompleted(score);
-    }
-    if (isQuizCompleted || currentQuestionIndex >= questions.length) {
-      onQuizCompleted(score);
-    }
-  }, [isQuizCompleted, currentQuestionIndex, onQuizCompleted, score, questions.length]);
+  const [remainingTime, setRemainingTime] = useState(duration);
 
   const handleAnswerSelected = (isCorrect) => {
     if (isCorrect) {
@@ -29,9 +19,10 @@ const Quiz = ({ questions, duration, onQuizCompleted }) => {
   };
 
   const handleQuizTimeout = () => {
-    setIsQuizCompleted(true);
+    onQuizCompleted(score, duration - remainingTime);
   };
 
+<<<<<<< HEAD
   if (currentQuestionIndex >= questions.length) {
     if(score >= 4){
         return <Winner />;
@@ -39,17 +30,30 @@ const Quiz = ({ questions, duration, onQuizCompleted }) => {
         return <ScoreScreen />;
     }
   }
+=======
+  useEffect(() => {
+    if (currentQuestionIndex >= questions.length) {
+      onQuizCompleted(score, duration - remainingTime);
+    }
+  }, [currentQuestionIndex, onQuizCompleted, score, questions.length, remainingTime]);
+>>>>>>> temp-branch
 
   const questionData = questions[currentQuestionIndex];
   return (
     <div className="quiz">
-      <Timer duration={duration} onTimeout={handleQuizTimeout} />
-      <Question
-        question={questionData.question}
-        options={questionData.options}
-        correctAnswer={questionData.correctAnswer}
-        onAnswerSelected={handleAnswerSelected}
+      <Timer
+        duration={duration}
+        onTimeout={handleQuizTimeout}
+        onTimeUpdate={setRemainingTime}
       />
+      {questionData && (
+        <Question
+          question={questionData.question}
+          options={questionData.options}
+          correctAnswer={questionData.correctAnswer}
+          onAnswerSelected={handleAnswerSelected}
+        />
+      )}
     </div>
   );
 };

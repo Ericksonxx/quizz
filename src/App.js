@@ -11,6 +11,8 @@ const App = () => {
   const [score, setScore] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [timerExpired, setTimerExpired] = useState(false);
+  const [timeSpent, setTimeSpent] = useState(0);
+
 
   // Update these with your own Supabase URL and API key from the Supabase Dashboard
   const supabaseUrl = 'https://gsxlbajltldjkgeggjdu.supabase.co';
@@ -22,10 +24,15 @@ const App = () => {
     setQuizStarted(true);
   };
 
-  const handleQuizCompleted = (finalScore) => {
+  const handleQuizCompleted = (finalScore, timeSpent) => {
     setScore(finalScore);
+    setTimeSpent(timeSpent);
     setQuizStarted(false);
+    writeToSupabase(user.name, user.email, finalScore, timeSpent);
   };
+  
+  
+  
 
   const writeToSupabase = async (name, email, score, time) => {
     const { error } = await supabase.from('quiz_results').insert([
@@ -33,14 +40,15 @@ const App = () => {
         name,
         email,
         score,
-        time,
+        time_spent: time,
       },
     ]);
-
+  
     if (error) {
       console.error('Error writing data to Supabase:', error);
     }
   };
+  
 
   useEffect(() => {
     if (score !== null) {
@@ -82,7 +90,13 @@ const App = () => {
   
   return (
     <div className="app">
-      <Quiz questions={questions} duration={60} onQuizCompleted={handleQuizCompleted} />
+      <Quiz
+  questions={questions}
+  duration={60}
+  onQuizCompleted={handleQuizCompleted}
+  setTimeSpent={setTimeSpent}
+/>
+
     </div>
   );
 };
@@ -90,7 +104,7 @@ const App = () => {
 const parseCsvData = (data) => {
   const rows = data.split('\n');
   const questions = rows.slice(1).map((row) => {
-    const [question, answer] = row.split(',');
+    const [question, answer] = row.split(',').map(item => item.trim());
     return {
       question,
       options: ['Yes', 'No'],
@@ -99,6 +113,7 @@ const parseCsvData = (data) => {
   });
   return questions;
 };
+
 
 
 

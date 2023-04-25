@@ -15,7 +15,7 @@ const UserForm = ({ onStartQuiz }) => {
     const fetchScores = async () => {
       const { data } = await supabase
         .from('quiz_results')
-        .select('name, score')
+        .select('name, time_spent')
         .order('score', { ascending: false })
         .limit(5);
       setScores(data);
@@ -62,14 +62,14 @@ const UserForm = ({ onStartQuiz }) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Score</th>
+              <th>Time</th>
             </tr>
           </thead>
           <tbody>
             {scores.map((score, index) => (
               <tr key={index}>
                 <td>{score.name}</td>
-                <td>{score.score}</td>
+                <td>{score.time_spent} seconds</td>
               </tr>
             ))}
           </tbody>
